@@ -1,8 +1,9 @@
 package GeometryConstructor
 
 type Polygon struct {
-	coordinates [][]Position
-	GeomType    string
+	inner    []Coordinate
+	outter   []Coordinate
+	GeomType string
 }
 
 func (p *Polygon) WKT() string {
