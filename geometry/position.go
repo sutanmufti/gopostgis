@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+type Coordinate interface {
+	String()
+}
+
 type Position [2]*float64
 type PositionZ [3]*float64
 type PositionZM [4]*float64
