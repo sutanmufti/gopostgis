@@ -126,6 +126,14 @@ func (p *PositionM) PromoteZM() *PositionZM {
 	return &PositionZM{p[0], p[1], nil, p[2]}
 }
 
+func (p *PositionM) PromoteM() *PositionM {
+	return &PositionM{p[0], p[1], p[2]}
+}
+
+func (p *PositionM) PromoteZ() *PositionZ {
+	return &PositionZ{p[0], p[1], nil}
+}
+
 func (p *PositionZ) DropZ() *Position {
 	return &Position{p[0], p[1]}
 }

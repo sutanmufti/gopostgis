@@ -7,7 +7,7 @@ import (
 
 func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, error) {
 	var ctype string
-	var er error
+	var er error = nil
 
 	if x == nil || y == nil {
 		er = errors.New("Must provide X and Y")
@@ -25,7 +25,7 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 	case "Point":
 		return &Point{&Position{x, y}}, er
 	case "PointM":
-		return &PointM{PositionM{x, y, m}}, er
+		return &PointM{&PositionM{x, y, m}}, er
 	case "PointZ":
 		return &PointZ{PositionZ{x, y, z}}, er
 	case "PointZM":
