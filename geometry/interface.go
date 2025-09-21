@@ -5,6 +5,7 @@ type Geometry interface {
 	GeoJSON() string
 	GeometryType() string
 	String() string
+	GetCoordinate() Coordinate
 }
 
 type GeometryCollection []Geometry
