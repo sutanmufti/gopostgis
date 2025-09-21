@@ -4,5 +4,38 @@ import (
 	"testing"
 )
 
-func TestHelloName(t *testing.T) {
+func F64(n float64) *float64 {
+	return &n
+}
+
+func TestST_MakePoint(t *testing.T) {
+
+	p, _ := ST_MakePoint(F64(4), F64(5), nil, nil)
+	pz, _ := ST_MakePoint(F64(4), F64(5), F64(6), nil)
+	pzm, _ := ST_MakePoint(F64(4), F64(5), F64(6), F64(7))
+	pm, _ := ST_MakePoint(F64(4), F64(5), nil, F64(7))
+
+	wktP := p.WKT()
+	wktPZ := pz.WKT()
+	wktPZM := pzm.WKT()
+	wktPM := pm.WKT()
+
+	same := "POINT (4.000000 5.000000)" == wktP
+	samePZ := "POINT Z (4.000000 5.000000 6.000000)" == wktPZ
+	samePZM := "POINT ZM (4.000000 5.000000 6.000000 7.000000)" == wktPZM
+	samePM := "POINT M (4.000000 5.000000 7.000000)" == wktPM
+
+	if !same {
+		t.Error("same error")
+	}
+	if !samePZ {
+		t.Error("samePZ error")
+	}
+	if !samePZM {
+		t.Error("samePZM error")
+	}
+	if !samePM {
+		t.Error("samePM error")
+	}
+
 }
