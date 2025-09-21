@@ -2,8 +2,46 @@ package GeometryConstructor
 
 import (
 	"errors"
+	"math"
 	"slices"
 )
+
+func Float64Equal(a, b *float64) bool {
+	if a == nil && b == nil {
+		return true
+	}
+
+	if a == nil || b == nil {
+		return false
+	}
+	const epsilon = 1e-9 // adjust depending on precision needs
+	return math.Abs(*a-*b) < epsilon
+}
+
+func ST_LineString(coords [][]float64) (Geometry, error) {
+	points := []Geometry{}
+	for _, c := range coords {
+		if len(c) < 2 {
+			return nil, errors.New("Invalid coordinate")
+		}
+		x := c[0]
+		y := c[1]
+
+		point, er := ST_MakePoint(&x, &y, nil, nil)
+
+		if er != nil {
+			return nil, er
+		}
+		points = append(points, point)
+	}
+
+	ls, er := ST_MakeLine(&points)
+
+	if er != nil {
+		return nil, er
+	}
+	return ls, nil
+}
 
 func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, error) {
 	var ctype string
@@ -136,12 +174,15 @@ func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
 		return nil, errors.New("Not enough inner coordinates")
 	}
 
-	if c1, c2 := outterCoords[0], outterCoords[1]; (c1.GetX() != c2.GetX()) || (c1.GetY() != c2.GetY()) || (c1.GetZ() != c2.GetZ()) || (c1.GetM() != c2.GetM()) {
+	if c1, c2 := outterCoords[0], outterCoords[len(outterCoords)-1]; !(Float64Equal(c1.GetX(), c2.GetX())) || !(Float64Equal(c1.GetY(), c2.GetY())) || !(Float64Equal(c1.GetZ(), c2.GetZ())) || !(Float64Equal(c1.GetM(), c2.GetM())) {
+		// erval := fmt.Sprintf("Invalid outter coordinates: starting coordinate != closing coordinate: %f, %f", c1,c2)
 		return nil, errors.New("Invalid outter coordinates: starting coordinate != closing coordinate")
 	}
 
-	if c1, c2 := innerCoords[0], innerCoords[1]; (c1.GetX() != c2.GetX()) || (c1.GetY() != c2.GetY()) || (c1.GetZ() != c2.GetZ()) || (c1.GetM() != c2.GetM()) {
-		return nil, errors.New("Invalid inner coordinates: starting coordinate != closing coordinate")
+	if containsInner {
+		if c1, c2 := innerCoords[0], innerCoords[len(innerCoords)-1]; !(Float64Equal(c1.GetX(), c2.GetX())) || !(Float64Equal(c1.GetY(), c2.GetY())) || !(Float64Equal(c1.GetZ(), c2.GetZ())) || !(Float64Equal(c1.GetM(), c2.GetM())) {
+			return nil, errors.New("Invalid inner coordinates: starting coordinate != closing coordinate")
+		}
 	}
 
 	dim := outter.GetDim()
