@@ -32,6 +32,57 @@ func (p *Position) String() string {
 	return retval
 }
 
+func (p *PositionM) String() string {
+	components := []string{}
+	for _, num := range *p {
+
+		if num == nil {
+			c := "nil"
+			components = append(components, c)
+			continue
+		} else {
+			c := fmt.Sprintf("%f", (*num))
+			components = append(components, c)
+		}
+	}
+	retval := strings.Join(components, " ")
+	return retval
+}
+
+func (p *PositionZ) String() string {
+	components := []string{}
+	for _, num := range *p {
+
+		if num == nil {
+			c := "nil"
+			components = append(components, c)
+			continue
+		} else {
+			c := fmt.Sprintf("%f", (*num))
+			components = append(components, c)
+		}
+	}
+	retval := strings.Join(components, " ")
+	return retval
+}
+
+func (p *PositionZM) String() string {
+	components := []string{}
+	for _, num := range *p {
+
+		if num == nil {
+			c := "nil"
+			components = append(components, c)
+			continue
+		} else {
+			c := fmt.Sprintf("%f", (*num))
+			components = append(components, c)
+		}
+	}
+	retval := strings.Join(components, " ")
+	return retval
+}
+
 func (p *Position) PromoteZ() *PositionZ {
 	return &PositionZ{p[0], p[1], nil}
 }
