@@ -1,7 +1,7 @@
 package GeometryConstructor
 
 type LineString struct {
-	coordinates []Position
+	coordinates []Coordinate
 }
 
 func (p *LineString) WKT() string          { return "" }
