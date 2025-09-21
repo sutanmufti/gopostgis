@@ -15,19 +15,33 @@ type Polygon struct {
 func (p *Polygon) WKT() string {
 	innerC := []string{}
 	outterC := []string{}
+	containsInner := len(p.inner) > 0
 
-	for _, c := range p.inner {
-		innerC = append(innerC, c.String())
+	if containsInner {
+		for _, c := range p.inner {
+			innerC = append(innerC, c.String())
+		}
 	}
 
 	for _, c := range p.outter {
 		outterC = append(outterC, c.String())
 	}
 
-	innerS := fmt.Sprintf("(%s)", strings.Join(innerC, ", "))
 	outterS := fmt.Sprintf("(%s)", strings.Join(outterC, ", "))
 
-	val := fmt.Sprintf("%s (%s, %s)", p.GeomType, outterS, innerS)
+	innerS := ""
+	if containsInner {
+		innerS = fmt.Sprintf("(%s)", strings.Join(innerC, ", "))
+	}
+
+	coords := ""
+	if containsInner {
+		coords = strings.Join([]string{outterS, innerS}, ", ")
+	} else {
+		coords = outterS
+	}
+
+	val := fmt.Sprintf("%s (%s)", p.GeomType, coords)
 
 	return val
 }
