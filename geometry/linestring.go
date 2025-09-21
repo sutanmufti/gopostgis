@@ -8,6 +8,7 @@ import (
 type LineString struct {
 	coordinates []Coordinate
 	GeomType    string
+	Dim         string
 }
 
 func (p *LineString) WKT() string {
@@ -28,6 +29,7 @@ func (p *LineString) GeoJSON() string           { return "" }
 func (p *LineString) GeometryType() string      { return p.GeomType }
 func (p *LineString) String() string            { return p.WKT() }
 func (p *LineString) GetCoordinate() Coordinate { return nil }
+func (p *LineString) GetDim() string            { return "" }
 
 func MakeLineStringCoordinates(geometryInput *[]Geometry, thisGeomType string) []Coordinate {
 

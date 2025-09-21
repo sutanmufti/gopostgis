@@ -65,18 +65,24 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 
 	coordinates := MakeLineStringCoordinates(geometryInput, thisGeomType)
 
+	dim := ""
+
 	switch thisGeomType {
 	case "POINT":
 		thisGeomType = "LINESTRING"
+		dim = ""
 	case "POINT Z":
 		thisGeomType = "LINESTRING Z"
+		dim = "Z"
 	case "POINT M":
 		thisGeomType = "LINESTRING M"
+		dim = "M"
 	case "POINT ZM":
 		thisGeomType = "LINESTRING ZM"
+		dim = "ZM"
 	}
 
-	return &LineString{coordinates, thisGeomType}, err
+	return &LineString{coordinates, thisGeomType, dim}, err
 }
 
 func ST_MakePolygon(outter []LineString, inner []LineString) Geometry {
@@ -95,6 +101,7 @@ func ST_MakePolygon(outter []LineString, inner []LineString) Geometry {
 		inner:    innerCoords,
 		outter:   outterCoords,
 		GeomType: "Polygon",
+		dim:      "",
 	}
 
 	return &p
