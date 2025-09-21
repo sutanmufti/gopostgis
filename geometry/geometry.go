@@ -18,16 +18,45 @@ func Float64Equal(a, b *float64) bool {
 	return math.Abs(*a-*b) < epsilon
 }
 
-func ST_LineString(coords [][]float64) (Geometry, error) {
+func ST_LineString(coords [][]*float64) (Geometry, error) {
 	points := []Geometry{}
 	for _, c := range coords {
+		dimType := ""
 		if len(c) < 2 {
 			return nil, errors.New("Invalid coordinate")
 		}
-		x := c[0]
-		y := c[1]
 
-		point, er := ST_MakePoint(&x, &y, nil, nil)
+		if len(c) == 2 {
+			dimType = ""
+		}
+
+		if len(c) == 3 {
+			if c[2] != nil {
+				dimType = "Z"
+			}
+		}
+
+		if len(c) == 4 {
+			if c[2] != nil && c[3] != nil {
+				dimType = "ZM"
+			} else if c[2] == nil && c[3] != nil {
+				dimType = "M"
+			} else if c[2] == nil && c[3] == nil {
+				dimType = ""
+			}
+		}
+		var point Geometry
+		var er error
+		switch dimType {
+		case "":
+			point, er = ST_MakePoint(c[0], c[1], nil, nil)
+		case "Z":
+			point, er = ST_MakePoint(c[0], c[1], c[2], nil)
+		case "ZM":
+			point, er = ST_MakePoint(c[0], c[1], c[2], c[3])
+		case "M":
+			point, er = ST_MakePoint(c[0], c[1], nil, c[3])
+		}
 
 		if er != nil {
 			return nil, er

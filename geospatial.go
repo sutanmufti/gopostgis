@@ -47,7 +47,7 @@ func ST_MakePolygon(outter GeometryConstructor.Geometry, inner GeometryConstruct
 }
 
 // Creates a Linestring from a slice of coords
-func ST_LineString(coords [][]float64) (GeometryConstructor.Geometry, error) {
+func ST_LineString(coords [][]*float64) (GeometryConstructor.Geometry, error) {
 	l, er := GeometryConstructor.ST_LineString(coords)
 
 	return l, er
