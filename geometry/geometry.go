@@ -36,12 +36,11 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 	return &Point{&Position{x, y}}, er
 }
 
+func contains(slice []string, val string) bool {
+	return slices.Contains(slice, val)
+}
+
 func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
-
-	contains := func(slice []string, val string) bool {
-		return slices.Contains(slice, val)
-	}
-
 	var allowed bool
 	var err error
 	allowedTypes := []string{"POINT", "POINT Z", "POINT M", "POINT ZM"}
@@ -86,29 +85,39 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 	return &LineString{coordinates, thisGeomType, dim}, err
 }
 
-func ST_MakePolygon(outter LineString, inner LineString) (Geometry, error) {
+func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
+	outterGeomType := outter.GeometryType()
+	innerGeomType := inner.GeometryType()
+	allowedTypes := []string{"LINESTRING", "LINESTRING Z", "LINESTRING M", "LINESTRING ZM"}
+	allowedOutter := contains(allowedTypes, outterGeomType)
+	allowedInner := contains(allowedTypes, innerGeomType)
+
+	if !allowedOutter || !allowedInner {
+		return nil, errors.New("Can only make a polygon from LINESTRING")
+	}
+
 	innerCoords := []Coordinate{}
 	outterCoords := []Coordinate{}
 	var err error
 
-	if outter.Dim != inner.Dim {
+	if outter.GetDim() != inner.GetDim() {
 		err = errors.New("Outter and Inner linestrings have different dimensions")
 		return nil, err
 	}
 
-	for _, c := range outter.coordinates {
+	for _, c := range outter.GetCoordinates() {
 		outterCoords = append(outterCoords, c)
 	}
 
-	for _, c := range inner.coordinates {
+	for _, c := range inner.GetCoordinates() {
 		innerCoords = append(innerCoords, c)
 	}
 
 	p := Polygon{
 		inner:    innerCoords,
 		outter:   outterCoords,
-		GeomType: fmt.Sprintf("POLYGON %s", outter.Dim),
-		dim:      outter.Dim,
+		GeomType: fmt.Sprintf("POLYGON %s", outter.GetDim()),
+		dim:      outter.GetDim(),
 	}
 
 	return &p, err

@@ -7,6 +7,7 @@ type Geometry interface {
 	String() string
 	GetCoordinate() Coordinate
 	GetDim() string
+	GetCoordinates() []Coordinate
 }
 
 type Coordinate interface {

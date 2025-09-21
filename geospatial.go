@@ -39,3 +39,8 @@ func ST_MakeLine(geometryInput *[]GeometryConstructor.Geometry) (GeometryConstru
 	val, er := GeometryConstructor.ST_MakeLine(geometryInput)
 	return val, er
 }
+
+func ST_MakePolygon(outter GeometryConstructor.Geometry, inner GeometryConstructor.Geometry) (GeometryConstructor.Geometry, error) {
+	val, er := GeometryConstructor.ST_MakePolygon(outter, inner)
+	return val, er
+}

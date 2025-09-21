@@ -15,3 +15,6 @@ func (p *PointZ) GeometryType() string      { return "POINT Z" }
 func (p *PointZ) String() string            { return p.WKT() }
 func (p *PointZ) GetCoordinate() Coordinate { return p.coordinates }
 func (p *PointZ) GetDim() string            { return "Z" }
+func (p *PointZ) GetCoordinates() []Coordinate {
+	return []Coordinate{p.coordinates}
+}

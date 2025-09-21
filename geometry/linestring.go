@@ -30,6 +30,9 @@ func (p *LineString) GeometryType() string      { return p.GeomType }
 func (p *LineString) String() string            { return p.WKT() }
 func (p *LineString) GetCoordinate() Coordinate { return nil }
 func (p *LineString) GetDim() string            { return p.Dim }
+func (p *LineString) GetCoordinates() []Coordinate {
+	return p.coordinates
+}
 
 func MakeLineStringCoordinates(geometryInput *[]Geometry, thisGeomType string) []Coordinate {
 
