@@ -1,4 +1,4 @@
-package gogeos
+package gopostgis
 
 import (
 	"github.com/sutanmufti/gopostgis/geometry"
@@ -25,5 +25,10 @@ func ST_PointZ(x *float64, y *float64, z *float64) (GeometryConstructor.Geometry
 
 func ST_PointZM(x *float64, y *float64, z *float64, m *float64) (GeometryConstructor.Geometry, error) {
 	val, er := GeometryConstructor.ST_MakePoint(x, y, z, m)
+	return val, er
+}
+
+func ST_MakeLine(geometryInput *[]GeometryConstructor.Geometry) (GeometryConstructor.Geometry, error) {
+	val, er := GeometryConstructor.ST_MakeLine(geometryInput)
 	return val, er
 }
