@@ -4,6 +4,16 @@ import (
 	"github.com/sutanmufti/gopostgis/geometry"
 )
 
+func GeomArray(n ...GeometryConstructor.Geometry) []GeometryConstructor.Geometry {
+	a := []GeometryConstructor.Geometry{}
+
+	for _, g := range n {
+		a = append(a, g)
+	}
+
+	return a
+}
+
 // Creates a 2D XY, 3D XYZ or 4D XYZM Point geometry. This function supports 3d and will not drop the z-index.
 func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (GeometryConstructor.Geometry, error) {
 	val, er := GeometryConstructor.ST_MakePoint(x, y, z, m)
