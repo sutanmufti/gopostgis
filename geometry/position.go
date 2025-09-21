@@ -10,6 +10,70 @@ type PositionZ [3]*float64
 type PositionZM [4]*float64
 type PositionM [3]*float64
 
+func (p *Position) GetX() *float64 {
+	return p[0]
+}
+
+func (p *Position) GetY() *float64 {
+	return p[1]
+}
+
+func (p *Position) GetM() *float64 {
+	return nil
+}
+
+func (p *Position) GetZ() *float64 {
+	return nil
+}
+
+func (p *PositionM) GetX() *float64 {
+	return p[0]
+}
+
+func (p *PositionM) GetY() *float64 {
+	return p[1]
+}
+
+func (p *PositionM) GetM() *float64 {
+	return p[2]
+}
+
+func (p *PositionM) GetZ() *float64 {
+	return nil
+}
+
+func (p *PositionZ) GetX() *float64 {
+	return p[0]
+}
+
+func (p *PositionZ) GetY() *float64 {
+	return p[1]
+}
+
+func (p *PositionZ) GetM() *float64 {
+	return nil
+}
+
+func (p *PositionZ) GetZ() *float64 {
+	return p[2]
+}
+
+func (p *PositionZM) GetX() *float64 {
+	return p[0]
+}
+
+func (p *PositionZM) GetY() *float64 {
+	return p[1]
+}
+
+func (p *PositionZM) GetM() *float64 {
+	return p[3]
+}
+
+func (p *PositionZM) GetZ() *float64 {
+	return p[2]
+}
+
 func (p *Position) IsM() bool {
 	return false
 }
