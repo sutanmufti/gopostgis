@@ -82,11 +82,9 @@ func ST_MakeLine(geometryInput *[]Geometry) (*LineString, error) {
 		thisGeomType = "LINESTRING"
 	}
 
-	switch thisGeomType {
-	case "LINESTRING ZM":
-	}
+	coordinates := MakeLineStringCoordinates(geometryInput)
 
-	return nil, err
+	return &LineString{coordinates, thisGeomType}, err
 }
 
 func ST_MakePolygon(c [][]Position) Polygon {
