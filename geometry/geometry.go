@@ -23,7 +23,7 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 
 	switch ctype {
 	case "Point":
-		return &Point{Position{x, y}}, er
+		return &Point{&Position{x, y}}, er
 	case "PointM":
 		return &PointM{PositionM{x, y, m}}, er
 	case "PointZ":
@@ -32,7 +32,7 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 		return &PointZM{PositionZM{x, y, z, m}}, er
 	}
 
-	return &Point{Position{x, y}}, er
+	return &Point{&Position{x, y}}, er
 }
 
 func ST_MakeLine(geometryInput *[]Geometry) error {
