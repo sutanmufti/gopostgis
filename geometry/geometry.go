@@ -2,7 +2,6 @@ package GeometryConstructor
 
 import (
 	"errors"
-	"fmt"
 	"slices"
 )
 
@@ -113,10 +112,23 @@ func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
 		innerCoords = append(innerCoords, c)
 	}
 
+	dim := outter.GetDim()
+	var GeomtypeAssign string
+	switch dim {
+	case "":
+		GeomtypeAssign = "POLYGON"
+	case "Z":
+		GeomtypeAssign = "POLYGON Z"
+	case "ZM":
+		GeomtypeAssign = "POLYGON ZM"
+	case "M":
+		GeomtypeAssign = "POLYGON M"
+	}
+
 	p := Polygon{
 		inner:    innerCoords,
 		outter:   outterCoords,
-		GeomType: fmt.Sprintf("POLYGON %s", outter.GetDim()),
+		GeomType: GeomtypeAssign,
 		dim:      outter.GetDim(),
 	}
 
