@@ -4,6 +4,14 @@ import (
 	"github.com/sutanmufti/gopostgis/geometry"
 )
 
+type Geometry GeometryConstructor.Geometry
+type Point GeometryConstructor.Point
+type PointZ GeometryConstructor.PointZ
+type PointZM GeometryConstructor.PointZM
+type PointM GeometryConstructor.PointM
+
+type LineString GeometryConstructor.LineString
+
 // Creates a 2D XY, 3D XYZ or 4D XYZM Point geometry. This function supports 3d and will not drop the z-index.
 func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (GeometryConstructor.Geometry, error) {
 	val, er := GeometryConstructor.ST_MakePoint(x, y, z, m)
