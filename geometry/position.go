@@ -8,6 +8,9 @@ import (
 type Coordinate interface {
 	String() string
 	GetCoordinate() []float64
+	PromoteM() *PositionM
+	PromoteZ() *PositionZ
+	PromoteZM() *PositionZM
 }
 
 type Position [2]*float64
@@ -81,6 +84,26 @@ func (p *PositionZM) String() string {
 	}
 	retval := strings.Join(components, " ")
 	return retval
+}
+
+func (p *Position) GetCoordinate() []float64 {
+
+	return []float64{}
+}
+
+func (p *PositionZ) GetCoordinate() []float64 {
+
+	return []float64{}
+}
+
+func (p *PositionZM) GetCoordinate() []float64 {
+
+	return []float64{}
+}
+
+func (p *PositionM) GetCoordinate() []float64 {
+
+	return []float64{}
 }
 
 func (p *Position) PromoteZ() *PositionZ {
