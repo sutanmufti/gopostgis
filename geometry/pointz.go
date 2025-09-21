@@ -14,3 +14,4 @@ func (p *PointZ) GeoJSON() string           { return "" }
 func (p *PointZ) GeometryType() string      { return "POINT Z" }
 func (p *PointZ) String() string            { return p.WKT() }
 func (p *PointZ) GetCoordinate() Coordinate { return p.coordinates }
+func (p *PointZ) GetDim() string            { return "Z" }
