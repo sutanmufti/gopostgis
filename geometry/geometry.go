@@ -85,13 +85,25 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 }
 
 func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
+	if outter == nil {
+		return nil, errors.New("Must provide outter LineString.")
+	}
+	containsInner := inner != nil
+
 	outterGeomType := outter.GeometryType()
-	innerGeomType := inner.GeometryType()
 	allowedTypes := []string{"LINESTRING", "LINESTRING Z", "LINESTRING M", "LINESTRING ZM"}
 	allowedOutter := contains(allowedTypes, outterGeomType)
-	allowedInner := contains(allowedTypes, innerGeomType)
 
-	if !allowedOutter || !allowedInner {
+	if containsInner {
+		innerGeomType := inner.GeometryType()
+		allowedInner := contains(allowedTypes, innerGeomType)
+		if !allowedOutter || !allowedInner {
+			return nil, errors.New("Can only make a polygon from LINESTRING")
+		}
+
+	}
+
+	if !allowedOutter {
 		return nil, errors.New("Can only make a polygon from LINESTRING")
 	}
 
@@ -99,17 +111,37 @@ func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
 	outterCoords := []Coordinate{}
 	var err error
 
-	if outter.GetDim() != inner.GetDim() {
-		err = errors.New("Outter and Inner linestrings have different dimensions")
-		return nil, err
+	if containsInner {
+		if outter.GetDim() != inner.GetDim() {
+			err = errors.New("Outter and Inner linestrings have different dimensions")
+			return nil, err
+		}
 	}
 
 	for _, c := range outter.GetCoordinates() {
 		outterCoords = append(outterCoords, c)
 	}
 
-	for _, c := range inner.GetCoordinates() {
-		innerCoords = append(innerCoords, c)
+	if containsInner {
+		for _, c := range inner.GetCoordinates() {
+			innerCoords = append(innerCoords, c)
+		}
+	}
+
+	if len(outterCoords) < 3 {
+		return nil, errors.New("Not enough outter coordinates")
+	}
+
+	if len(innerCoords) < 3 {
+		return nil, errors.New("Not enough inner coordinates")
+	}
+
+	if c1, c2 := outterCoords[0], outterCoords[1]; (c1.GetX() != c2.GetX()) || (c1.GetY() != c2.GetY()) || (c1.GetZ() != c2.GetZ()) || (c1.GetM() != c2.GetM()) {
+		return nil, errors.New("Invalid outter coordinates: starting coordinate != closing coordinate")
+	}
+
+	if c1, c2 := innerCoords[0], innerCoords[1]; (c1.GetX() != c2.GetX()) || (c1.GetY() != c2.GetY()) || (c1.GetZ() != c2.GetZ()) || (c1.GetM() != c2.GetM()) {
+		return nil, errors.New("Invalid inner coordinates: starting coordinate != closing coordinate")
 	}
 
 	dim := outter.GetDim()
