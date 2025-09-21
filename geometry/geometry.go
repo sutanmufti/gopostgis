@@ -29,7 +29,7 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 	case "PointZ":
 		return &PointZ{&PositionZ{x, y, z}}, er
 	case "PointZM":
-		return &PointZM{PositionZM{x, y, z, m}}, er
+		return &PointZM{&PositionZM{x, y, z, m}}, er
 	}
 
 	return &Point{&Position{x, y}}, er
