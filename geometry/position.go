@@ -23,7 +23,7 @@ func (p *Position) String() string {
 	for _, num := range *p {
 
 		if num == nil {
-			c := "nil"
+			c := "NaN"
 			components = append(components, c)
 			continue
 		} else {
@@ -40,7 +40,7 @@ func (p *PositionM) String() string {
 	for _, num := range *p {
 
 		if num == nil {
-			c := "nil"
+			c := "NaN"
 			components = append(components, c)
 			continue
 		} else {
@@ -57,7 +57,7 @@ func (p *PositionZ) String() string {
 	for _, num := range *p {
 
 		if num == nil {
-			c := "nil"
+			c := "NaN"
 			components = append(components, c)
 			continue
 		} else {
@@ -74,7 +74,7 @@ func (p *PositionZM) String() string {
 	for _, num := range *p {
 
 		if num == nil {
-			c := "nil"
+			c := "NaN"
 			components = append(components, c)
 			continue
 		} else {
