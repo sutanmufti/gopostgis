@@ -14,6 +14,9 @@ type Coordinate interface {
 	PromoteM() *PositionM
 	PromoteZ() *PositionZ
 	PromoteZM() *PositionZM
+	IsM() bool
+	IsZ() bool
+	IsZM() bool
 }
 
 type GeometryCollection []Geometry
