@@ -6,7 +6,8 @@ import (
 )
 
 type Coordinate interface {
-	String()
+	String() string
+	GetCoordinate() []float64
 }
 
 type Position [2]*float64
