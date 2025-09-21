@@ -40,11 +40,13 @@ func ST_MakeLine(geometryInput *[]GeometryConstructor.Geometry) (GeometryConstru
 	return val, er
 }
 
+// Creates a Polygon formed by the given shell and optional array of holes. Input geometries must be closed LineStrings (rings).
 func ST_MakePolygon(outter GeometryConstructor.Geometry, inner GeometryConstructor.Geometry) (GeometryConstructor.Geometry, error) {
 	val, er := GeometryConstructor.ST_MakePolygon(outter, inner)
 	return val, er
 }
 
+// Creates a Linestring from a slice of coords
 func ST_LineString(coords [][]float64) (GeometryConstructor.Geometry, error) {
 	l, er := GeometryConstructor.ST_LineString(coords)
 
