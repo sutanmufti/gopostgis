@@ -2,6 +2,7 @@ package GeometryConstructor
 
 import (
 	"errors"
+	"fmt"
 	"slices"
 )
 
@@ -85,26 +86,32 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 	return &LineString{coordinates, thisGeomType, dim}, err
 }
 
-func ST_MakePolygon(outter []LineString, inner []LineString) Geometry {
+func ST_MakePolygon(outter LineString, inner LineString) (Geometry, error) {
 	innerCoords := []Coordinate{}
 	outterCoords := []Coordinate{}
+	var err error
 
-	for _, c := range outter {
-		outterCoords = append(outterCoords, c.coordinates...)
+	if outter.Dim != inner.Dim {
+		err = errors.New("Outter and Inner linestrings have different dimensions")
+		return nil, err
 	}
 
-	for _, c := range inner {
-		innerCoords = append(innerCoords, c.coordinates...)
+	for _, c := range outter.coordinates {
+		outterCoords = append(outterCoords, c)
+	}
+
+	for _, c := range inner.coordinates {
+		innerCoords = append(innerCoords, c)
 	}
 
 	p := Polygon{
 		inner:    innerCoords,
 		outter:   outterCoords,
-		GeomType: "Polygon",
-		dim:      "",
+		GeomType: fmt.Sprintf("POLYGON %s", outter.Dim),
+		dim:      outter.Dim,
 	}
 
-	return &p
+	return &p, err
 }
 
 func ST_MakeEnvelope(xmin float64, ymin float64, xmax float64) {
