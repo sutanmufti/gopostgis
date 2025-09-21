@@ -122,6 +122,14 @@ func (p *PositionZ) PromoteZM() *PositionZM {
 	return &PositionZM{p[0], p[1], p[2], nil}
 }
 
+func (p *PositionZ) PromoteM() *PositionM {
+	return &PositionM{p[0], p[1], nil}
+}
+
+func (p *PositionZ) PromoteZ() *PositionZ {
+	return p
+}
+
 func (p *PositionM) PromoteZM() *PositionZM {
 	return &PositionZM{p[0], p[1], nil, p[2]}
 }
