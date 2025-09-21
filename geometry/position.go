@@ -10,6 +10,54 @@ type PositionZ [3]*float64
 type PositionZM [4]*float64
 type PositionM [3]*float64
 
+func (p *Position) IsM() bool {
+	return false
+}
+
+func (p *Position) IsZM() bool {
+	return false
+}
+
+func (p *Position) IsZ() bool {
+	return false
+}
+
+func (p *PositionM) IsM() bool {
+	return true
+}
+
+func (p *PositionM) IsZM() bool {
+	return false
+}
+
+func (p *PositionM) IsZ() bool {
+	return false
+}
+
+func (p *PositionZ) IsM() bool {
+	return false
+}
+
+func (p *PositionZ) IsZM() bool {
+	return false
+}
+
+func (p *PositionZ) IsZ() bool {
+	return true
+}
+
+func (p *PositionZM) IsM() bool {
+	return false
+}
+
+func (p *PositionZM) IsZM() bool {
+	return true
+}
+
+func (p *PositionZM) IsZ() bool {
+	return false
+}
+
 func (p *Position) String() string {
 	components := []string{}
 	for _, num := range *p {
