@@ -57,7 +57,7 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 			return nil, err
 		}
 
-		if !zExists || mExists {
+		if !zExists || !mExists {
 			switch geomType {
 			case "POINT ZM":
 				zExists = true
@@ -82,7 +82,7 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 		thisGeomType = "LINESTRING"
 	}
 
-	coordinates := MakeLineStringCoordinates(geometryInput)
+	coordinates := MakeLineStringCoordinates(geometryInput, thisGeomType)
 
 	return &LineString{coordinates, thisGeomType}, err
 }
