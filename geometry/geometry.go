@@ -65,6 +65,17 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 
 	coordinates := MakeLineStringCoordinates(geometryInput, thisGeomType)
 
+	switch thisGeomType {
+	case "POINT":
+		thisGeomType = "LINESTRING"
+	case "POINT Z":
+		thisGeomType = "LINESTRING Z"
+	case "POINT M":
+		thisGeomType = "LINESTRING M"
+	case "POINT ZM":
+		thisGeomType = "LINESTRING ZM"
+	}
+
 	return &LineString{coordinates, thisGeomType}, err
 }
 
