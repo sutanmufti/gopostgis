@@ -1,7 +1,6 @@
 package GeometryConstructor
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -42,8 +41,8 @@ func TestST_MakePoint(t *testing.T) {
 }
 
 func TestST_MakeLine(t *testing.T) {
-	p1, _ := ST_MakePoint(F64(4), F64(5), nil, nil)
-	p2, _ := ST_MakePoint(F64(4), F64(5), nil, nil)
+	p1, _ := ST_MakePoint(F64(4), F64(5), nil, F64(5))
+	p2, _ := ST_MakePoint(F64(5), F64(6), nil, F64(5))
 
 	points := []Geometry{
 		p1,
@@ -51,7 +50,8 @@ func TestST_MakeLine(t *testing.T) {
 	}
 
 	linestring, _ := ST_MakeLine(&points)
-	fmt.Println("Hello linestring")
-	fmt.Println(linestring.GeometryType())
-	fmt.Println(linestring)
+
+	if "LINESTRING M (4.000000 5.000000 5.000000, 5.000000 6.000000 5.000000)" != linestring.WKT() {
+		t.Error("Linestring does not match")
+	}
 }
