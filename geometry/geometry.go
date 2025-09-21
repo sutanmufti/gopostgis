@@ -79,8 +79,25 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 	return &LineString{coordinates, thisGeomType}, err
 }
 
-func ST_MakePolygon(outter []LineString, inner []LineString) {
+func ST_MakePolygon(outter []LineString, inner []LineString) Geometry {
+	innerCoords := []Coordinate{}
+	outterCoords := []Coordinate{}
 
+	for _, c := range outter {
+		outterCoords = append(outterCoords, c.coordinates...)
+	}
+
+	for _, c := range inner {
+		innerCoords = append(innerCoords, c.coordinates...)
+	}
+
+	p := Polygon{
+		inner:    innerCoords,
+		outter:   outterCoords,
+		GeomType: "Polygon",
+	}
+
+	return &p
 }
 
 func ST_MakeEnvelope(xmin float64, ymin float64, xmax float64) {
