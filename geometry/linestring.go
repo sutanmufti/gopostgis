@@ -29,11 +29,21 @@ func (p *LineString) GeometryType() string      { return p.GeomType }
 func (p *LineString) String() string            { return p.WKT() }
 func (p *LineString) GetCoordinate() Coordinate { return nil }
 
-func MakeLineStringCoordinates(geometryInput *[]Geometry) []Coordinate {
+func MakeLineStringCoordinates(geometryInput *[]Geometry, thisGeomType string) []Coordinate {
+
 	coords := []Coordinate{}
 	for _, g := range *geometryInput {
 		coord := g.GetCoordinate()
-		coords = append(coords, coord)
+		switch thisGeomType {
+		case "LINESTRING ZM":
+			coords = append(coords, coord.PromoteZM())
+		case "LINESTRING M":
+			coords = append(coords, coord.PromoteM())
+		case "LINESTRING Z":
+			coords = append(coords, coord.PromoteM())
+		case "LINESTRING":
+			coords = append(coords, coord)
+		}
 	}
 	return coords
 }
