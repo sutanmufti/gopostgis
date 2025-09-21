@@ -44,3 +44,9 @@ func ST_MakePolygon(outter GeometryConstructor.Geometry, inner GeometryConstruct
 	val, er := GeometryConstructor.ST_MakePolygon(outter, inner)
 	return val, er
 }
+
+func ST_LineString(coords [][]float64) (GeometryConstructor.Geometry, error) {
+	l, er := GeometryConstructor.ST_LineString(coords)
+
+	return l, er
+}
