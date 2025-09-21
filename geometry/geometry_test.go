@@ -1,6 +1,7 @@
 package GeometryConstructor
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -38,4 +39,19 @@ func TestST_MakePoint(t *testing.T) {
 		t.Error("samePM error")
 	}
 
+}
+
+func TestST_MakeLine(t *testing.T) {
+	p1, _ := ST_MakePoint(F64(4), F64(5), nil, nil)
+	p2, _ := ST_MakePoint(F64(4), F64(5), nil, nil)
+
+	points := []Geometry{
+		p1,
+		p2,
+	}
+
+	linestring, _ := ST_MakeLine(&points)
+	fmt.Println("Hello linestring")
+	fmt.Println(linestring.GeometryType())
+	fmt.Println(linestring)
 }
