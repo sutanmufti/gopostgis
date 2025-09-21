@@ -33,17 +33,7 @@ func MakeLineStringCoordinates(geometryInput *[]Geometry, thisGeomType string) [
 
 	coords := []Coordinate{}
 	for _, g := range *geometryInput {
-		coord := g.GetCoordinate()
-		switch thisGeomType {
-		case "LINESTRING ZM":
-			coords = append(coords, coord.PromoteZM())
-		case "LINESTRING M":
-			coords = append(coords, coord.PromoteM())
-		case "LINESTRING Z":
-			coords = append(coords, coord.PromoteM())
-		case "LINESTRING":
-			coords = append(coords, coord)
-		}
+		coords = append(coords, g.GetCoordinate())
 	}
 	return coords
 }

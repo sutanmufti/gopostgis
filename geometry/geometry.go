@@ -40,46 +40,27 @@ func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 	contains := func(slice []string, val string) bool {
 		return slices.Contains(slice, val)
 	}
-	var geomType string
+
 	var allowed bool
 	var err error
 	allowedTypes := []string{"POINT", "POINT Z", "POINT M", "POINT ZM"}
 
-	zExists := false
-	mExists := false
-	for _, geom := range *geometryInput {
-		geomType = geom.GeometryType()
-
+	var thisGeomType string
+	for i, geom := range *geometryInput {
+		geomType := geom.GeometryType()
 		allowed = contains(allowedTypes, geomType)
-
 		if !allowed {
-			err = errors.New("Type not allowed ")
+			err = errors.New("Type not allowed")
 			return nil, err
 		}
 
-		if !zExists || !mExists {
-			switch geomType {
-			case "POINT ZM":
-				zExists = true
-				mExists = true
-			case "POINT Z":
-				zExists = true
-			case "POINT M":
-				mExists = true
-			}
+		if i == 0 {
+			thisGeomType = geomType
+		} else if thisGeomType != geomType {
+			err = errors.New("Inconsistent positions")
+			return nil, err
 		}
-	}
 
-	var thisGeomType string
-
-	if mExists && zExists {
-		thisGeomType = "LINESTRING ZM"
-	} else if mExists && !zExists {
-		thisGeomType = "LINESTRING M"
-	} else if !mExists && zExists {
-		thisGeomType = "LINESTRING Z"
-	} else if !mExists && !zExists {
-		thisGeomType = "LINESTRING"
 	}
 
 	coordinates := MakeLineStringCoordinates(geometryInput, thisGeomType)
