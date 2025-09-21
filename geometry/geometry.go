@@ -170,7 +170,7 @@ func ST_MakePolygon(outter Geometry, inner Geometry) (Geometry, error) {
 		return nil, errors.New("Not enough outter coordinates")
 	}
 
-	if len(innerCoords) < 3 {
+	if containsInner && len(innerCoords) < 3 {
 		return nil, errors.New("Not enough inner coordinates")
 	}
 
