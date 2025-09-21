@@ -1,7 +1,7 @@
 package GeometryConstructor
 
 type Point struct {
-	coordinates Position
+	coordinates Coordinate
 }
 
 func (p *Point) WKT() string          { return "" }
