@@ -35,7 +35,7 @@ func ST_MakePoint(x *float64, y *float64, z *float64, m *float64) (Geometry, err
 	return &Point{&Position{x, y}}, er
 }
 
-func ST_MakeLine(geometryInput *[]Geometry) (*LineString, error) {
+func ST_MakeLine(geometryInput *[]Geometry) (Geometry, error) {
 
 	contains := func(slice []string, val string) bool {
 		return slices.Contains(slice, val)
