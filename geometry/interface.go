@@ -19,6 +19,10 @@ type Coordinate interface {
 	IsM() bool
 	IsZ() bool
 	IsZM() bool
+	GetX() *float64
+	GetY() *float64
+	GetZ() *float64
+	GetM() *float64
 }
 
 type GeometryCollection []Geometry
